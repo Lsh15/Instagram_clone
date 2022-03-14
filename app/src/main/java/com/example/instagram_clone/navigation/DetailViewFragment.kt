@@ -16,6 +16,7 @@ import com.example.instagram_clone.R
 import com.example.instagram_clone.navigation.model.AlarmDTO
 import com.example.instagram_clone.navigation.model.ContentDTO
 import com.example.instagram_clone.navigation.model.FollowDTO
+import com.example.instagram_clone.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -149,7 +150,7 @@ class DetailViewFragment : Fragment(){
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
             var message = FirebaseAuth.getInstance()?.currentUser?.email + getString(R.string.alarm_favorite)
-//            FcmPush.instance.sendMessage(destinationUid,"Howlstagram",message)
+            FcmPush.instance.sendMessage(destinationUid,"Howlstagram",message)
         }
 
     }

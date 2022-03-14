@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.example.instagram_clone.R
 import com.example.instagram_clone.navigation.model.AlarmDTO
 import com.example.instagram_clone.navigation.model.ContentDTO
+import com.example.instagram_clone.util.FcmPush
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.item_comment.view.*
 
@@ -52,7 +53,7 @@ class CommentActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
         var msg = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_comment) + " of " + message
-//        FcmPush.instance.sendMessage(destinationUid,"Howlstagram",msg)
+        FcmPush.instance.sendMessage(destinationUid,"Howlstagram",msg)
     }
     inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
