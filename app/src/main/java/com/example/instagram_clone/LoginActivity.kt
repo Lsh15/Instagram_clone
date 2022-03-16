@@ -2,8 +2,11 @@ package com.example.instagram_clone
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -13,8 +16,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-//import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 
 class LoginActivity : AppCompatActivity() {
     var auth : FirebaseAuth? = null
@@ -37,6 +43,22 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this,gso)
+    }
+    fun printHashKey() {
+        try {
+            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey = String(Base64.encode(md.digest(), 0))
+                Log.i("TAG", "printHashKey() Hash Key: $hashKey")
+            }
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e("TAG", "printHashKey()", e)
+        } catch (e: Exception) {
+            Log.e("TAG", "printHashKey()", e)
+        }
+
     }
     fun googleLogin(){
         var signInIntent = googleSignInClient?.signInIntent
